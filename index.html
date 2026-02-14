@@ -1,248 +1,316 @@
-<!DOCTYPE html>
-<html lang="zh-CN">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Tired to response some shit messages</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-</head>
+<!DOCTYPE html><html><head><meta name="x-poe-datastore-behavior" content="local_only"><meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' 'unsafe-eval' data: blob: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://code.jquery.com https://unpkg.com https://d3js.org https://threejs.org https://cdn.plot.ly https://stackpath.bootstrapcdn.com https://maps.googleapis.com https://cdn.tailwindcss.com https://ajax.googleapis.com https://kit.fontawesome.com https://cdn.datatables.net https://maxcdn.bootstrapcdn.com https://code.highcharts.com https://tako-static-assets-production.s3.amazonaws.com https://www.youtube.com https://fonts.googleapis.com https://fonts.gstatic.com https://pfst.cf2.poecdn.net https://puc.poecdn.net https://i.imgur.com https://wikimedia.org https://*.icons8.com https://*.giphy.com https://picsum.photos https://images.unsplash.com; frame-src 'self' https://www.youtube.com https://trytako.com; child-src 'self'; manifest-src 'self'; worker-src 'self'; upgrade-insecure-requests; block-all-mixed-content;"><meta http-equiv="x-dns-prefetch-control" content="off"><script src="https://puc.poecdn.net/authenticated_preview_page/standard.3ef2c256959faf5a756d.js"></script>
+    <meta charset="utf-8">
+    <title>Tired to Response Some Shit Messages</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+  <script src="https://puc.poecdn.net/authenticated_preview_page/disableWebRTC.9710cebe07429a9e8e06.js"></script><meta name="x-poe-allow-downloads" content="true"><meta name="x-poe-datastore-behavior" content="disabled"><script src="https://puc.poecdn.net/authenticated_preview_page/tw.b9024aecac666455e183.js"></script><script src="https://puc.poecdn.net/authenticated_preview_page/deps.faccd16000d314dc16d5.js"></script><script src="https://puc.poecdn.net/authenticated_preview_page/exports.b0f0f482cdeb5302b0b9.js"></script><script src="https://puc.poecdn.net/authenticated_preview_page/renderer.75c73ae6b4235f62945a.js"></script><script>Object.defineProperty(exports, "__esModule", {value: true}); function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }var _react = require('react'); var _react2 = _interopRequireDefault(_react);
+var _framermotion = require('framer-motion');
+var _lucidereact = require('lucide-react');
 
-<body class="bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 min-h-screen flex items-center justify-center p-6">
+let nextId = 0;
+function createMsg(type) {
+  return { id: ++nextId, type, content: '' };
+}
 
-  <!-- 说明弹窗 -->
-  <div id="noticeModal" class="fixed inset-0 bg-black bg-opacity-40 flex items-center justify-center z-50">
-    <div class="bg-white w-full max-w-md p-6 rounded-2xl shadow-2xl">
-      <h2 class="text-xl font-bold mb-3 text-center text-indigo-600">使用说明</h2>
-      <p class="text-gray-600 text-sm leading-relaxed">
-        这个工具只帮你生成 Prompt（提示词），由 GitHub 制作，不会收集任何信息，请放心。<br>
-        当你收到一些烦人的信息，但不得不回复时，可以用它。<br>
-        你只需选择场景，然后把聊天记录手动填进去（考虑到工作软件不能截图）。<br>
-        你可以根据需要增加、减少或排序对话，当然，提供的上下文越多越好。<br>
-        注意：这个工具只生成 Prompt，请在生成后手动粘贴到ChatGPT、千问或其他 Chatbot 中。
-      </p>
-      <button onclick="closeModal()"
-        class="mt-5 w-full bg-indigo-600 text-white py-2 rounded-xl hover:bg-indigo-700 transition">
-        我已了解
-      </button>
-    </div>
-  </div>
+const identityOpts = ['上级','导师','平级同事','师兄/姐','师弟/妹','甲方','下属','客户','合作方','追求者','不熟同事'];
+const stanceOpts = ['想维持关系','想保持距离','想明确边界','想保留证据','想拒绝','想拖延'];
+const styleOpts = ['委婉','冷静','严肃','幽默','高情商'];
+const sceneOpts = ['工作讨论','生活场景','项目沟通','会议汇报'];
 
-  <div class="w-full max-w-3xl bg-white p-8 rounded-3xl shadow-2xl border border-gray-100">
+function DragItem({ message, onUpdate, onDelete }) {
+  const controls = _framermotion.useDragControls.call(void 0, );
+  const isUser = message.type === 'user';
+  return (
+    _react2.default.createElement(_framermotion.Reorder.Item, {
+      value: message,
+      dragListener: false,
+      dragControls: controls,
+      className: "mb-2",}
 
-    <h1 class="text-3xl font-bold text-center mb-6 bg-gradient-to-r from-indigo-600 to-purple-600 text-transparent bg-clip-text">
-      tired to response some shit messages
-    </h1>
+      , _react2.default.createElement('div', { className: `flex items-start gap-2 p-3 rounded-xl border-l-4 transition-shadow hover:shadow-sm ${
+        isUser ? 'bg-blue-50 border-l-blue-400' : 'bg-amber-50 border-l-amber-400'
+      }`,}
+        , _react2.default.createElement('div', {
+          onPointerDown: (e) => controls.start(e),
+          className: "cursor-grab active:cursor-grabbing mt-1.5 text-gray-300 hover:text-gray-500 transition-colors touch-none select-none"       ,}
 
-    <!-- 基础设置区 -->
-    <div class="mb-6 grid grid-cols-1 md:grid-cols-2 gap-5">
+          , _react2.default.createElement(_lucidereact.GripVertical, { size: 16,} )
+        )
+        , _react2.default.createElement('div', { className: "flex-1 min-w-0" ,}
+          , _react2.default.createElement('span', { className: `inline-block text-xs font-semibold px-2 py-0.5 rounded-full mb-1.5 ${
+            isUser ? 'bg-blue-100 text-blue-700' : 'bg-amber-100 text-amber-700'
+          }`,}
+            , isUser ? '💬 你' : '📨 对方'
+          )
+          , _react2.default.createElement('textarea', {
+            value: message.content,
+            onChange: (e) => onUpdate(message.id, e.target.value),
+            placeholder: isUser ? '输入你的消息...' : '输入对方的消息...',
+            className: "w-full bg-transparent outline-none resize-none text-sm text-gray-700 placeholder-gray-300 leading-relaxed border-none p-0"         ,
+            rows: 2,}
+          )
+        )
+        , _react2.default.createElement('button', {
+          onClick: () => onDelete(message.id),
+          className: "mt-1.5 p-1 text-gray-300 hover:text-red-400 hover:bg-red-50 rounded-lg transition-all"      ,}
 
-      <!-- 通用卡片 -->
-      <div class="bg-gray-50 p-4 rounded-2xl shadow-sm">
-        <label class="block mb-1 font-medium">对方身份</label>
-        <select id="roleSelect" class="w-full border rounded-xl px-3 py-2 focus:ring-2 focus:ring-indigo-400"
-          onchange="toggleCustom('role')">
-          <option value="上级">上级</option>
-          <option value="导师">导师</option>
-          <option value="平级同事">平级同事</option>
-          <option value="师兄/姐">师兄/姐</option>
-          <option value="师弟/妹">师弟/妹</option>
-          <option value="甲方">甲方</option>
-          <option value="下属">下属</option>
-          <option value="客户">客户</option>
-          <option value="合作方">合作方</option>
-          <option value="追求者">追求者</option>
-          <option value="不熟同事">不熟同事</option>
-          <option value="自定义">自定义</option>
-        </select>
-        <input type="text" id="roleCustom"
-          class="w-full border rounded-xl px-3 py-2 mt-2 hidden"
-          placeholder="请输入自定义身份" />
-      </div>
+          , _react2.default.createElement(_lucidereact.Trash2, { size: 14,} )
+        )
+      )
+    )
+  );
+}
 
-      <div class="bg-gray-50 p-4 rounded-2xl shadow-sm">
-        <label class="block mb-1 font-medium">你的立场</label>
-        <select id="stanceSelect" class="w-full border rounded-xl px-3 py-2 focus:ring-2 focus:ring-indigo-400"
-          onchange="toggleCustom('stance')">
-          <option value="想维持关系">想维持关系</option>
-          <option value="想保持距离">想保持距离</option>
-          <option value="想明确边界">想明确边界</option>
-          <option value="想保留证据">想保留证据</option>
-          <option value="想拒绝">想拒绝</option>
-          <option value="想拖延">想拖延</option>
-          <option value="自定义">自定义</option>
-        </select>
-        <input type="text" id="stanceCustom"
-          class="w-full border rounded-xl px-3 py-2 mt-2 hidden"
-          placeholder="请输入自定义立场" />
-      </div>
+function ChipGroup({ label, options, selected, onSelect, customValue, onCustomChange }) {
+  const isCustom = selected === '自定义';
+  return (
+    _react2.default.createElement('div', { className: "space-y-2.5",}
+      , _react2.default.createElement('h3', { className: "text-sm font-bold text-gray-800"  ,}, label)
+      , _react2.default.createElement('div', { className: "flex flex-wrap gap-1.5"  ,}
+        , options.map(o => (
+          _react2.default.createElement('button', {
+            key: o,
+            onClick: () => onSelect(o),
+            className: `px-3 py-1.5 text-xs font-medium rounded-full border transition-all duration-150 ${
+              selected === o
+                ? 'bg-indigo-500 text-white border-indigo-500 shadow-sm'
+                : 'bg-white text-gray-500 border-gray-200 hover:border-indigo-300 hover:text-indigo-500'
+            }`,}
 
-      <div class="bg-gray-50 p-4 rounded-2xl shadow-sm">
-        <label class="block mb-1 font-medium">回复风格</label>
-        <select id="styleSelect" class="w-full border rounded-xl px-3 py-2 focus:ring-2 focus:ring-indigo-400"
-          onchange="toggleCustom('style')">
-          <option value="委婉">委婉</option>
-          <option value="冷静">冷静</option>
-          <option value="严肃">严肃</option>
-          <option value="幽默">幽默</option>
-          <option value="高情商">高情商</option>
-          <option value="自定义">自定义</option>
-        </select>
-        <input type="text" id="styleCustom"
-          class="w-full border rounded-xl px-3 py-2 mt-2 hidden"
-          placeholder="请输入自定义风格" />
-      </div>
+            , o
+          )
+        ))
+        , _react2.default.createElement('button', {
+          onClick: () => onSelect('自定义'),
+          className: `px-3 py-1.5 text-xs font-medium rounded-full border transition-all duration-150 ${
+            isCustom
+              ? 'bg-indigo-500 text-white border-indigo-500 shadow-sm'
+              : 'bg-white text-gray-500 border-gray-200 hover:border-indigo-300 hover:text-indigo-500'
+          }`,}
+, "自定义"
 
-      <div class="bg-gray-50 p-4 rounded-2xl shadow-sm">
-        <label class="block mb-1 font-medium">场景说明</label>
-        <select id="contextSelect" class="w-full border rounded-xl px-3 py-2 focus:ring-2 focus:ring-indigo-400"
-          onchange="toggleCustom('context')">
-          <option value="工作讨论">工作讨论</option>
-          <option value="生活场景">生活场景</option>
-          <option value="项目沟通">项目沟通</option>
-          <option value="会议汇报">会议汇报</option>
-          <option value="自定义">自定义</option>
-        </select>
-        <input type="text" id="contextCustom"
-          class="w-full border rounded-xl px-3 py-2 mt-2 hidden"
-          placeholder="请输入自定义场景" />
-      </div>
+        )
+      )
+      , isCustom && (
+        _react2.default.createElement(_framermotion.motion.div, { initial: { opacity: 0, height: 0 }, animate: { opacity: 1, height: 'auto' }, transition: { duration: 0.15 },}
+          , _react2.default.createElement('input', {
+            type: "text",
+            value: customValue,
+            onChange: (e) => onCustomChange(e.target.value),
+            placeholder: "请输入自定义内容...",
+            className: "w-full px-3 py-2 text-sm bg-gray-50 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-200 focus:border-indigo-300 transition-all"            ,
+            autoFocus: true,}
+          )
+        )
+      )
+    )
+  );
+}
 
-    </div>
+ function App() {
+  const [showIntro, setShowIntro] = _react.useState.call(void 0, true);
+  const [identity, setIdentity] = _react.useState.call(void 0, '');
+  const [identityC, setIdentityC] = _react.useState.call(void 0, '');
+  const [stance, setStance] = _react.useState.call(void 0, '');
+  const [stanceC, setStanceC] = _react.useState.call(void 0, '');
+  const [style, setStyle] = _react.useState.call(void 0, '');
+  const [styleC, setStyleC] = _react.useState.call(void 0, '');
+  const [scene, setScene] = _react.useState.call(void 0, '');
+  const [sceneC, setSceneC] = _react.useState.call(void 0, '');
+  const [messages, setMessages] = _react.useState.call(void 0, []);
+  const [prompt, setPrompt] = _react.useState.call(void 0, '');
+  const [copied, setCopied] = _react.useState.call(void 0, false);
 
-    <!-- 多轮对话 -->
-    <div class="mb-6">
-      <label class="block mb-2 font-semibold">多轮对话</label>
-      <div id="conversationContainer" class="space-y-3"></div>
+  const v = (sel, cust) => sel === '自定义' ? cust : sel;
 
-      <div class="flex space-x-3 mt-3">
-        <button onclick="addMessage('user')"
-          class="flex-1 bg-blue-500 text-white py-2 rounded-xl hover:bg-blue-600 transition shadow">
-          增加你的消息
-        </button>
-        <button onclick="addMessage('other')"
-          class="flex-1 bg-gray-600 text-white py-2 rounded-xl hover:bg-gray-700 transition shadow">
-          增加对方消息
-        </button>
-      </div>
-    </div>
+  const generate = () => {
+    const id = v(identity, identityC);
+    const st = v(stance, stanceC);
+    const sy = v(style, styleC);
+    const sc = v(scene, sceneC);
+    const conv = messages.filter(m => m.content.trim()).map(m =>
+      `${m.type === 'user' ? '我' : '对方'}：${m.content}`
+    ).join('\n');
+    setPrompt(
+`## 角色
+你是一个沟通专家，擅长在各种社交场景中撰写得体、有策略的回复。
 
-    <button onclick="generatePrompt()"
-      class="w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white py-3 rounded-2xl hover:opacity-90 transition shadow-lg">
-      生成 Prompt
-    </button>
+## 背景信息
+- 对方身份：${id || '未指定'}
+- 我的立场：${st || '未指定'}
+- 期望回复风格：${sy || '未指定'}
+- 场景：${sc || '未指定'}
 
-    <div class="mt-6">
-      <label class="block mb-1 font-semibold">生成的 Prompt</label>
-      <textarea id="output" rows="8"
-        class="w-full border rounded-2xl px-4 py-3 bg-gray-50"
-        readonly></textarea>
-      <button onclick="copyPrompt()"
-        class="mt-3 w-full bg-purple-600 text-white py-2 rounded-xl hover:bg-purple-700 transition shadow">
-        复制 Prompt
-      </button>
-    </div>
+## 对话记录
+${conv || '（暂无对话记录）'}
 
-  </div>
+## 任务
+请根据以上信息，帮我生成一个合适的回复。要求：
+1. 符合我「${st || '未指定'}」的立场
+2. 使用「${sy || '未指定'}」的语气和风格
+3. 充分考虑对方「${id || '未指定'}」的身份
+4. 适配「${sc || '未指定'}」的场景
+5. 回复要自然、得体，不要让对方感觉是 AI 生成的
+控制在120字内，并给出三种版本`
+    );
+  };
 
-<script>
-  function getFinalValue(field) {
-    const select = document.getElementById(field + 'Select');
-    const custom = document.getElementById(field + 'Custom');
+  const copyPrompt = async () => {
+    try {
+      await navigator.clipboard.writeText(prompt);
+    } catch (e2) {
+      const t = document.createElement('textarea');
+      t.value = prompt;
+      document.body.appendChild(t);
+      t.select();
+      document.execCommand('copy');
+      document.body.removeChild(t);
+    }
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
+  return (
+    _react2.default.createElement('div', { className: "min-h-screen bg-gradient-to-br from-slate-50 via-indigo-50 to-purple-50"    ,}
+      , _react2.default.createElement(_framermotion.AnimatePresence, null
+        , showIntro && (
+          _react2.default.createElement(_framermotion.motion.div, {
+            initial: { opacity: 0 },
+            animate: { opacity: 1 },
+            exit: { opacity: 0 },
+            className: "fixed inset-0 bg-black/40 backdrop-blur-sm z-50 flex items-center justify-center p-4"        ,}
+
+            , _react2.default.createElement(_framermotion.motion.div, {
+              initial: { scale: 0.92, opacity: 0 },
+              animate: { scale: 1, opacity: 1 },
+              exit: { scale: 0.92, opacity: 0 },
+              transition: { type: 'spring', duration: 0.4 },
+              className: "bg-white rounded-2xl shadow-2xl max-w-md w-full p-6 space-y-4"      ,}
+
+              , _react2.default.createElement('div', { className: "text-center",}
+                , _react2.default.createElement('div', { className: "text-4xl mb-2" ,}, "😉")
+                , _react2.default.createElement('h2', { className: "text-lg font-bold text-gray-900"  ,}, "使用说明")
+              )
+              , _react2.default.createElement('div', { className: "space-y-2.5 text-sm text-gray-600 leading-relaxed"   ,}
+                , _react2.default.createElement('p', null, "这个工具只帮你生成 Prompt（提示词），由 GitHub 制作，不会收集任何信息，请放心。"   )
+                , _react2.default.createElement('p', null, "当你收到一些烦人的信息，但不得不回复时，可以用它。")
+                , _react2.default.createElement('p', null, "你只需选择场景，然后把聊天记录手动填进去（考虑到工作软件不能截图）。")
+                , _react2.default.createElement('p', null, "你可以根据需要增加、减少或排序对话，当然，提供的上下文越多越好。")
+                , _react2.default.createElement('p', { className: "text-amber-600 font-medium bg-amber-50 rounded-lg p-2.5"    ,}, "⚠️ 注意：这个工具只生成 Prompt，请在生成后手动粘贴到ChatGPT、千问或其他 Chatbot 中。"    )
+              )
+              , _react2.default.createElement('button', {
+                onClick: () => setShowIntro(false),
+                className: "w-full py-3 bg-indigo-500 hover:bg-indigo-600 text-white font-semibold rounded-xl transition-colors shadow-lg shadow-indigo-200"         ,}
+, "我已了解"
+
+              )
+            )
+          )
+        )
+      )
+
+      , _react2.default.createElement('div', { className: "sticky top-0 z-40 bg-white/80 backdrop-blur-md border-b border-gray-100"      ,}
+        , _react2.default.createElement('div', { className: "max-w-2xl mx-auto px-4 py-3 flex items-center gap-2"      ,}
+          , _react2.default.createElement('span', { className: "text-xl",}, "🥱")
+          , _react2.default.createElement('h1', { className: "text-base font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent"      ,}, "Tired to Response Some Shit Messages"
+
+          )
+        )
+      )
+
+      , _react2.default.createElement('div', { className: "max-w-2xl mx-auto px-4 py-5 space-y-4"    ,}
+        , _react2.default.createElement('div', { className: "bg-white rounded-2xl shadow-sm border border-gray-100 p-5 space-y-5"      ,}
+          , _react2.default.createElement(ChipGroup, { label: "对方身份", options: identityOpts, selected: identity, onSelect: setIdentity, customValue: identityC, onCustomChange: setIdentityC,} )
+          , _react2.default.createElement('div', { className: "border-t border-gray-100" ,} )
+          , _react2.default.createElement(ChipGroup, { label: "你的立场", options: stanceOpts, selected: stance, onSelect: setStance, customValue: stanceC, onCustomChange: setStanceC,} )
+          , _react2.default.createElement('div', { className: "border-t border-gray-100" ,} )
+          , _react2.default.createElement(ChipGroup, { label: "回复风格", options: styleOpts, selected: style, onSelect: setStyle, customValue: styleC, onCustomChange: setStyleC,} )
+          , _react2.default.createElement('div', { className: "border-t border-gray-100" ,} )
+          , _react2.default.createElement(ChipGroup, { label: "场景说明", options: sceneOpts, selected: scene, onSelect: setScene, customValue: sceneC, onCustomChange: setSceneC,} )
+        )
+
+        , _react2.default.createElement('div', { className: "bg-white rounded-2xl shadow-sm border border-gray-100 p-5"     ,}
+          , _react2.default.createElement('h3', { className: "text-sm font-bold text-gray-800 mb-4 flex items-center gap-2"      ,}
+            , _react2.default.createElement(_lucidereact.MessageCircle, { size: 15, className: "text-indigo-500",} ), "多轮对话"
+
+          )
+
+          , messages.length > 0 ? (
+            _react2.default.createElement(_framermotion.Reorder.Group, { axis: "y", values: messages, onReorder: setMessages, className: "mb-3",}
+              , messages.map(msg => (
+                _react2.default.createElement(DragItem, {
+                  key: msg.id,
+                  message: msg,
+                  onUpdate: (id, c) => setMessages(p => p.map(m => m.id === id ? { ...m, content: c } : m)),
+                  onDelete: (id) => setMessages(p => p.filter(m => m.id !== id)),}
+                )
+              ))
+            )
+          ) : (
+            _react2.default.createElement('div', { className: "text-center py-10 text-gray-300"  ,}
+              , _react2.default.createElement(_lucidereact.MessageCircle, { size: 28, className: "mx-auto mb-2 opacity-50"  ,} )
+              , _react2.default.createElement('p', { className: "text-xs",}, "点击下方按钮添加对话")
+            )
+          )
+
+          , _react2.default.createElement('div', { className: "flex gap-2" ,}
+            , _react2.default.createElement('button', {
+              onClick: () => setMessages(p => [...p, createMsg('user')]),
+              className: "flex-1 flex items-center justify-center gap-1.5 py-2.5 bg-blue-50 hover:bg-blue-100 text-blue-600 text-xs font-semibold rounded-xl border border-blue-100 transition-colors"              ,}
+
+              , _react2.default.createElement(_lucidereact.Plus, { size: 14,} ), " 增加你的消息"
+            )
+            , _react2.default.createElement('button', {
+              onClick: () => setMessages(p => [...p, createMsg('other')]),
+              className: "flex-1 flex items-center justify-center gap-1.5 py-2.5 bg-amber-50 hover:bg-amber-100 text-amber-600 text-xs font-semibold rounded-xl border border-amber-100 transition-colors"              ,}
+
+              , _react2.default.createElement(_lucidereact.Plus, { size: 14,} ), " 增加对方消息"
+            )
+          )
+        )
+
+        , _react2.default.createElement('button', {
+          onClick: generate,
+          className: "w-full py-3.5 bg-gradient-to-r from-indigo-500 to-purple-500 hover:from-indigo-600 hover:to-purple-600 text-white font-bold rounded-2xl shadow-lg shadow-indigo-200 transition-all active:scale-95 flex items-center justify-center gap-2 text-sm"                  ,}
+
+          , _react2.default.createElement(_lucidereact.Send, { size: 16,} ), " 生成 Prompt"
+        )
+
+        , _react2.default.createElement(_framermotion.AnimatePresence, null
+          , prompt && (
+            _react2.default.createElement(_framermotion.motion.div, {
+              initial: { opacity: 0, y: 16 },
+              animate: { opacity: 1, y: 0 },
+              exit: { opacity: 0, y: 16 },
+              className: "bg-white rounded-2xl shadow-sm border border-gray-100 p-5"     ,}
+
+              , _react2.default.createElement('div', { className: "flex items-center justify-between mb-3"   ,}
+                , _react2.default.createElement('h3', { className: "text-sm font-bold text-gray-800"  ,}, "生成的 Prompt" )
+                , _react2.default.createElement('button', {
+                  onClick: copyPrompt,
+                  className: `flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-lg transition-all ${
+                    copied ? 'bg-green-100 text-green-600' : 'bg-gray-100 hover:bg-gray-200 text-gray-600'
+                  }`,}
+
+                  , copied ? _react2.default.createElement(_lucidereact.Check, { size: 13,} ) : _react2.default.createElement(_lucidereact.Copy, { size: 13,} )
+                  , copied ? '已复制' : '复制 Prompt'
+                )
+              )
+              , _react2.default.createElement('pre', { className: "text-xs text-gray-600 whitespace-pre-wrap bg-gray-50 rounded-xl p-4 border border-gray-100 max-h-72 overflow-y-auto leading-relaxed font-sans"           ,}
+                , prompt
+              )
+            )
+          )
+        )
+
+        , _react2.default.createElement('p', { className: "text-center text-xs text-gray-300 pb-4"   ,}, "Prompt Generator · 请粘贴到 ChatGPT / 千问等 Chatbot 中使用"
+
+        )
+      )
+    )
+  );
+} exports.default = App;
+</script></head>
+  <body>
   
-    if (select.value === '自定义') {
-      return custom.value.trim() || '未提供';
-    }
-    return select.value;
-  }
 
-  function closeModal() {
-    document.getElementById("noticeModal").style.display = "none";
-  }
-
-  let messageId = 0;
-
-  function addMessage(type) {
-    messageId++;
-    const container = document.getElementById('conversationContainer');
-    const div = document.createElement('div');
-    div.className = "flex space-x-2 items-start";
-    div.id = "msg_" + messageId;
-
-    const textarea = document.createElement('textarea');
-    textarea.rows = 2;
-    textarea.placeholder = type === 'user' ? "你的消息" : "对方消息";
-    textarea.className = "flex-1 border rounded-xl px-3 py-2";
-
-    const delBtn = document.createElement('button');
-    delBtn.textContent = "删除";
-    delBtn.className = "bg-red-500 text-white px-3 py-1 rounded-xl hover:bg-red-600";
-    delBtn.onclick = () => container.removeChild(div);
-
-    div.appendChild(textarea);
-    div.appendChild(delBtn);
-    container.appendChild(div);
-
-    textarea.dataset.type = type;
-  }
-
-  function toggleCustom(field) {
-    const select = document.getElementById(field + 'Select');
-    const custom = document.getElementById(field + 'Custom');
-    if (select.value === '自定义') {
-      custom.classList.remove('hidden');
-    } else {
-      custom.classList.add('hidden');
-    }
-  }
-
-  function generatePrompt() {
-    const role = getFinalValue('role');
-    const stance = getFinalValue('stance');
-    const style = getFinalValue('style');
-    const context = getFinalValue('context');
-
-
-    const container = document.getElementById('conversationContainer');
-    const messages = Array.from(container.querySelectorAll('textarea'))
-      .filter(t => t.value.trim() !== '')
-      .map(t => ({
-        type: t.dataset.type,
-        text: t.value.trim()
-      }));
-
-    if (messages.length === 0) {
-      alert("请至少添加一条消息！");
-      return;
-    }
-
-    let convText = messages.map(m =>
-      (m.type === 'user' ? "用户：" : "对方：") + m.text
-    ).join("\n");
-
-    const prompt = `
-你是一个精通社交的消息回复助手。目前需要你根据用户提供的对话内容和特定场景，帮助用户回复一些棘手的消息。
-对方身份：${role}，当前场景：${context}。
-用户希望保持立场：${stance}，回复风格：${style}。
-以下是多轮对话：
-${convText}
-
-请生成一条可发送的回复，控制在120字内，并给出三种版本。
-    `.trim();
-
-    document.getElementById('output').value = prompt;
-  }
-
-  function copyPrompt() {
-    const output = document.getElementById('output');
-    output.select();
-    navigator.clipboard.writeText(output.value);
-    alert("已复制，请粘贴到Chatbot中使用。");
-  }
-
-  addMessage('other');
-  addMessage('user');
-
-</script>
-
-</body>
-</html>
+<div id="preview-app"></div></body></html>
